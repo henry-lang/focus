@@ -4,8 +4,17 @@ let pageList = document.getElementById('page-list')
 let pageAdd = document.getElementById('page-add')
 let pageAddBtn = document.getElementById('page-add-btn')
 let pageAddText = document.getElementById('page-add-text')
+
 let daySelect = document.getElementById('day-select')
-let msgConnection = chrome.runtime.connect({name: "list.js"})
+
+let startTime = document.getElementById('start-time')
+let endTime = document.getElementById('end-time')
+
+let msgConnection = chrome.runtime.connect({name: 'list.js'})
+
+const refreshTime = (day) => {
+    console.log('Changed!')
+}
 
 const validatePage = (value) => {
     if (pages.includes(value)) return false
@@ -38,8 +47,10 @@ const addPage = (value, isInitial) => {
     let pageElement = getPageElement(value)
     pageList.insertBefore(pageElement, pageAdd)
     pages.push(value)
-    
-    if (!isInitial) {msgConnection.postMessage({page: value})}
+
+    if (!isInitial) {
+        msgConnection.postMessage({page: value})
+    }
 }
 
 const deletePage = (value) => {
@@ -67,16 +78,25 @@ pageAddBtn.addEventListener('click', () => {
     addPage(value, false)
 })
 
-daySelect.addEventListener('change', () => {
-    let day = daySelect.value
-    addInitialPages(day)
-})
-
 pageAddText.addEventListener('keyup', (event) => {
     if (event.keyCode == 13) {
         addPage(pageAddText.value, false)
         pageAddText.value = ''
     }
+})
+
+daySelect.addEventListener('change', () => {
+    let day = daySelect.value
+    refreshTime(day)
+    addInitialPages(day)
+})
+
+startTime.addEventListener('change', () => {
+    console.log('Start time changed!')
+})
+
+endTime.addEventListener('change', () => {
+    console.log('End time changed!')
 })
 
 addInitialPages(0) // First, get pages for Sunday which is the default

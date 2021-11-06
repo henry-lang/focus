@@ -18,8 +18,7 @@
     </nav>
 
     <div class="main-content">
-        <h1>Page List</h1>
-        <p class="inline-block">Time for: </p>
+        <p class="inline-block">Day Selected: </p>
         <select class="inline-block" id="day-select">
             <option value="0">Sunday</option>
             <option value="1">Monday</option>
@@ -29,6 +28,16 @@
             <option value="5">Friday</option>
             <option value="6">Saturday</option>
         </select>
+
+        <h1>Edit Times</h1>
+        <p class="inline-block">From: </p>
+        <input type="time" id="start-time" class="inline-block">
+        <br>
+        <p class="inline-block">To: </p>
+        <input type="time" id="end-time" class="inline-block">
+        <br>
+
+        <h1>Edit Pages</h1>
         <ul id="page-list">
             <li id="page-add">
                 <input id="page-add-text" type="text">
