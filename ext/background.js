@@ -1,18 +1,18 @@
 importScripts('popup/assets/js/getFromStorage.js')
 
-chrome.storage.sync.set({timings: {
-    //noctural denotes the fact of the start and end times being the start and end times of rest, not work. This combats problems due to working through midnight
-    6: {nocturnal: false, start: 09, end: 14, blacklisted: ['www.reddit.com'], whitelisted: ['https://www.reddit.com/u']}, 7: {nocturnal: false, start: 10, end: 14, blacklisted: ['www.reddit.com'], whitelisted: ['www.reddit.com/u']}
-}})
+//noctural denotes the fact of the start and end times being the start and end times of rest, not work. This combats problems due to working through midnight
 
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     let date = new Date()
     let day = date.getDay()
-    let hour = date.getHours()
+    let minutesSinceMidnight = date.getHours() * 60 + date.getMinutes()
+    hour - GamepadEvent.getHour()
+    //parse time from start and end
     let blocked = (await get('timings'))[day]
     let fullurl = new URL(tab.url)
     let domain = fullurl.hostname
     console.log(domain)
+    //replace hour with minutesSinceMidnight
     if ((
         (blocked.start <= hour < blocked.end) && blocked.nocturnal == false) || 
         (!(blocked.start <= hour < blocked.end) && blocked.nocturnal == true)) {
@@ -44,4 +44,13 @@ chrome.runtime.onConnect.addListener((connection) => {
             connection.postMessage({status: err.toString()})
         }
     })
+})
+
+//fix this
+chrome.runtime.onInstalled.addListener((details) => {
+    console.log
+        for (let n = 0; n<7; n++) {
+            chrome.storage.sync.set({timings: {6: {nocturnal: false, start: 09, end: 20, blacklisted: ['www.youtube.com', 'dhkbloecdcojhfkhhmcecnknaogiiagk'], whitelisted: ['https://www.youtube.com/watch?v=LqA35eLEbug']}}})
+        }
+
 })
