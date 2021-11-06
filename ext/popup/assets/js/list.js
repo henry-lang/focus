@@ -5,6 +5,7 @@ let pageAdd = document.getElementById('page-add')
 let pageAddBtn = document.getElementById('page-add-btn')
 let pageAddText = document.getElementById('page-add-text')
 let daySelect = document.getElementById('day-select')
+let msgConnection = chrome.runtime.connect({name: "list.js"})
 
 const validatePage = (value) => {
     if (pages.includes(value)) return false
@@ -33,11 +34,12 @@ const getPageElement = (value) => {
     return baseNode
 }
 
-const addPage = (value) => {
+const addPage = (value, isInitial) => {
     let pageElement = getPageElement(value)
     pageList.insertBefore(pageElement, pageAdd)
-
     pages.push(value)
+    
+    if (!isInitial) {msgConnection.postMessage({page: value})}
 }
 
 const deletePage = (value) => {
@@ -54,7 +56,7 @@ const addInitialPages = async (day) => {
         pageList.firstChild.remove()
     }
     data[day].blacklisted.map((page) => {
-        addPage(page)
+        addPage(page, true)
     })
 }
 
@@ -62,18 +64,17 @@ pageAddBtn.addEventListener('click', () => {
     let value = pageAddText.value
     if (!validatePage(value)) return
     pageAddText.value = ''
-    addPage(value)
+    addPage(value, false)
 })
 
 daySelect.addEventListener('change', () => {
     let day = daySelect.value
-    console.log(day)
     addInitialPages(day)
 })
 
 pageAddText.addEventListener('keyup', (event) => {
     if (event.keyCode == 13) {
-        addPage(pageAddText.value)
+        addPage(pageAddText.value, false)
         pageAddText.value = ''
     }
 })
