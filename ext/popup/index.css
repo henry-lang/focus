@@ -37,3 +37,16 @@ body {
   font-size: 24pt;
   font-family: 'Montserrat';
 }
+
+.main-content {
+  padding-top: 50px;
+  width: 90%;
+
+  margin: auto;
+}
+
+#page-add {
+  margin: 0;
+  padding: 0;
+  /* display: none; */
+}
