@@ -16,7 +16,9 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     let day = date.getDay()
     let hour = date.getHours()
     let blocked = (await get('timings'))[day]
-
+    let fullurl = new URL(tab.url)
+    let domain = fullurl.hostname
+    console.log(domain)
     if ((
         (blocked.start <= hour < blocked.end) && blocked.nocturnal == false) || 
         (!(blocked.start <= hour < blocked.end) && blocked.nocturnal == true)) {
@@ -29,6 +31,8 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
                     if (n == (blocked.blacklisted.length - 1)) {
                         chrome.tabs.remove(tabId)
                         chrome.tabs.create({url: chrome.runtime.getURL("popup/home.html")})
+                    }
+                }
             }
     }
 })
