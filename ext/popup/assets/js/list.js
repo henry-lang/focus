@@ -11,10 +11,14 @@ let daySelect = document.getElementById('day-select')
 let startTime = document.getElementById('start-time')
 let endTime = document.getElementById('end-time')
 
-let msgConnection = chrome.runtime.connect({name: 'list.js'})
+let msgConnection = chrome.runtime.connect({ name: 'list.js' })
 
-const refreshTime = (day) => {
-    console.log('Changed!')
+const getTimes = async (day) => {
+    let data = await getFromStorage('timings')
+    let start = data[day].start
+    let end = data[day].end
+    startTime.value = start
+    endTime.value = end
 }
 
 const validatePage = (value) => {
@@ -31,7 +35,7 @@ const getPageElement = (value) => {
     deleteNode.addEventListener('click', () => {
         baseNode.remove()
         pages = pages.filter((page) => page !== value)
-        msgConnection.postMessage({type: 'delete_page', day: selectedDay, page: value})
+        msgConnection.postMessage({ type: 'delete_page', day: selectedDay, page: value })
     })
     deleteNode.className = 'page-delete'
 
@@ -51,7 +55,7 @@ const addPage = (value, isInitial) => {
     pages.push(value)
 
     if (!isInitial) {
-        msgConnection.postMessage({type: 'add_page', day: selectedDay, page: value})
+        msgConnection.postMessage({ type: 'add_page', day: selectedDay, page: value })
     }
 }
 
@@ -83,16 +87,17 @@ pageAddText.addEventListener('keyup', (event) => {
 
 daySelect.addEventListener('change', () => {
     selectedDay = daySelect.value
-    refreshTime(selectedDay)
+    getTimes(selectedDay)
     addInitialPages(selectedDay)
 })
 
 startTime.addEventListener('change', () => {
-    msgConnection.postMessage({type: 'change_start', day: selectedDay, time: startTime.value})
+    msgConnection.postMessage({ type: 'change_start', day: selectedDay, time: startTime.value })
 })
 
 endTime.addEventListener('change', () => {
-    msgConnection.postMessage({type: 'change_end', day: selectedDay, time: startTime.value})
+    msgConnection.postMessage({ type: 'change_end', day: selectedDay, time: endTime.value })
 })
 
 addInitialPages(0) // First, get pages for Sunday which is the default
+getTimes(0) // And get times for Sunday as well
