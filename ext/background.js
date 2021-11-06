@@ -22,6 +22,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
         (!(blocked.start < hour < blocked.end) && blocked.nocturnal == true)) {
             if (blocked.blacklisted.includes(tab.url)) {
                 chrome.tabs.remove(tabId)
+                chrome.tabs.create({url: chrome.runtime.getURL("popup/home.html")})
             }
     }
 })
