@@ -1,3 +1,4 @@
+import get from './getFromStorage.js'
 let pages = []
 
 let pageList = document.getElementById('page-list')
@@ -46,11 +47,15 @@ const deletePage = (value) => {
     })
 }
 
-const addInitialPages = (day) => {
+const addInitialPages = async (day) => {
     pages = []
+    let data = await get('timings')
     while (pageList.children.length > 1) {
         pageList.firstChild.remove()
     }
+    data[day].blacklisted.map(page => {
+        addPage(page)
+    })
 }
 
 pageAddBtn.addEventListener('click', () => {
@@ -62,7 +67,15 @@ pageAddBtn.addEventListener('click', () => {
 
 daySelect.addEventListener('change', () => {
     let day = daySelect.value
+    console.log(day)
     addInitialPages(day)
+})
+
+pageAddText.addEventListener("keyup", (event) => {
+    if (event.keyCode == 13) {
+        addPage(pageAddText.value)
+        pageAddText.value = ''
+    }
 })
 
 addInitialPages(0) // First, get pages for Sunday which is the default
