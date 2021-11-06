@@ -1,4 +1,3 @@
-importScripts('./getFromStorage.js')
 let pages = []
 
 let pageList = document.getElementById('page-list')
@@ -47,7 +46,7 @@ const deletePage = (value) => {
     })
 }
 
-const addInitialPages = (day) => {
+const addInitialPages = async (day) => {
     // Clear pages list in the code and the DOM element list.
     pages = []
     let data = await get('timings')
