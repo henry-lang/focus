@@ -47,13 +47,14 @@ const deletePage = (value) => {
     })
 }
 
-const addInitialPages = async (day) => {
+const addInitialPages = (day) => {
+    // Clear pages list in the code and the DOM element list.
     pages = []
     let data = await get('timings')
     while (pageList.children.length > 1) {
         pageList.firstChild.remove()
     }
-    data[day].blacklisted.map(page => {
+    data[day].blacklisted.map((page) => {
         addPage(page)
     })
 }
@@ -71,7 +72,7 @@ daySelect.addEventListener('change', () => {
     addInitialPages(day)
 })
 
-pageAddText.addEventListener("keyup", (event) => {
+pageAddText.addEventListener('keyup', (event) => {
     if (event.keyCode == 13) {
         addPage(pageAddText.value)
         pageAddText.value = ''
