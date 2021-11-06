@@ -5,5 +5,3 @@ const get = async (key) => {
         } catch (err) {reject(err)}
     })
 }
-
-export default get

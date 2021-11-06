@@ -1,4 +1,4 @@
-import get from './getFromStorage.js'
+importScripts('./getFromStorage.js')
 let pages = []
 
 let pageList = document.getElementById('page-list')
