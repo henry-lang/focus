@@ -1,52 +1,63 @@
 @font-face {
-  font-family: Montserrat;
-  src: url(assets/montserrat.ttf);
+    font-family: Montserrat;
+    src: url(assets/montserrat.ttf);
 }
 
 :root {
-  --width: 400px;
-  --height: 600px;
-  --dark-color: #333333;
+    --width: 400px;
+    --height: 600px;
+    --dark-color: #333333;
 
-  --light-color: #e3e3e3;
-  --mid-color: #dddddd;
-  --dark-color: #444444;
+    --light-color: #fefefe;
+    --mid-color: #f0f0f0;
+    --dark-color: #444444;
 }
 
 body {
-  width: var(--width);
-  height: var(--height);
-  background-color: var(--light-color);
+    padding: 0;
+    margin: 0;
+    width: var(--width);
+    height: var(--height);
+    background-color: var(--light-color);
 }
 
 .navbar {
-  left: 0;
-  right: 0;
-  top: 0;
-  display: flex;
-  width: 100%;
-  align-items: center;
-  background-color: var(--mid-color);
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 50px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    background-color: var(--mid-color);
 }
 
 #icon-container {
-  width: 100%;
+    width: 100%;
+}
+
+#icon-container > a {
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .nav-title {
-  font-size: 24pt;
-  font-family: 'Montserrat';
+    padding-left: 20px;
+    font-size: 24pt;
+    font-family: 'Montserrat';
+    font-weight: 800;
+    color: var(--dark-color);
 }
 
 .main-content {
-  padding-top: 50px;
-  width: 90%;
+    padding-top: 50px;
+    width: 90%;
 
-  margin: auto;
+    margin: auto;
 }
 
 #page-add {
-  margin: 0;
-  padding: 0;
-  /* display: none; */
+    margin: 0;
+    padding: 0;
+    /* display: none; */
 }

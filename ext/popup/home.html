@@ -9,14 +9,23 @@
     <nav class="navbar">
         <p class="nav-item nav-title">focus</p>
         <div id="icon-container" align="right">
-            <img class="nav-item icon" src="assets/home.svg"/>
-            <img class="nav-item icon" src="assets/list.svg"/>
-            <img class="nav-item icon" src="assets/settings.svg"/>
+            <a href="home.html"><img class="nav-item icon" src="assets/home.svg"/></a>
+            <a href="list.html"><img class="nav-item icon" src="assets/list.svg"/></a>
+            <a href="settings.html"><img class="nav-item icon" src="assets/settings.svg"/></a>
         </div>
     </nav>
 
     <div class="main-content">
-        
+        <p style="display: inline-block;">Time for: </p>
+        <select style="display: inline-block;" id="day-select">
+            <option value="0">Sunday</option>
+            <option value="1">Monday</option>
+            <option value="2">Tuesday</option>
+            <option value="3">Wednesday</option>
+            <option value="4">Thursday</option>
+            <option value="5">Friday</option>
+            <option value="6">Saturday</option>
+        </select>
     </div>
 </body>
 </html>
