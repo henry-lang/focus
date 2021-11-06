@@ -1,4 +1,36 @@
+:root {
+  --width: 400px;
+  --height: 600px;
+  --dark-color: #333333;
+
+  --light-color: #e3e3e3;
+  --mid-color: #dddddd;
+  --dark-color: #444444;
+}
+
 body {
-  width: 600;
-  height: 800;
+  padding: 0;
+  margin: 0;
+  width: var(--width);
+  height: var(--height);
+  background-color: var(--light-color);
+}
+
+.navbar {
+  left: 0;
+  right: 0;
+  top: 0;
+  background-color: var(--mid-color);
+}
+
+.icon {
+  padding: 10px;
+  width: 30px;
+  height: 30px;
+  color: var(--dark-color);
+}
+
+.nav-item {
+  display: inline-block;
+  text-align: center;
 }
