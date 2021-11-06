@@ -1,5 +1,6 @@
 importScripts('popup/assets/js/getFromStorage.js')
 let lastTabId = null
+let extensionURL = chrome.runtime.getURL('popup/home.html')
 
 //noctural denotes the fact of the start and end times being the start and end times of rest, not work. This combats problems due to working through midnight
 
@@ -19,6 +20,8 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     let end = parseTime(blocked.end)
     let fullurl = new URL(tab.url)
     let domain = fullurl.hostname
+
+    if (fullurl == extensionURL) {return}
 
     if (lastTabId != tabId) {
         if ((
@@ -56,7 +59,7 @@ chrome.runtime.onConnect.addListener((connection) => {
 
 //fix this
 chrome.runtime.onInstalled.addListener((details) => {
-    let defaultConfig = {nocturnal: false, start: '09:50', end: '20:30', blacklisted: ['www.youtube.com'], whitelisted: ['https://www.youtube.com/watch?v=LqA35eLEbug']}
+    let defaultConfig = {nocturnal: false, start: '09:50', end: '20:30', blacklisted: ['www.youtube.com', 'lldamahldhphfhnpcnfnlmcamjnlhjij'], whitelisted: ['https://www.youtube.com/watch?v=LqA35eLEbug', 'https://www.youtube.com/watch?v=jMtG9SyZfAc']}
     chrome.storage.sync.set({timings: {
         0: defaultConfig,
         1: defaultConfig,
