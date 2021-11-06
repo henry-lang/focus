@@ -4,6 +4,7 @@ let pageList = document.getElementById('page-list')
 let pageAdd = document.getElementById('page-add')
 let pageAddBtn = document.getElementById('page-add-btn')
 let pageAddText = document.getElementById('page-add-text')
+let daySelect = document.getElementById('day-select')
 
 const validatePage = (value) => {
     if (pages.includes(value)) return false
@@ -45,11 +46,11 @@ const deletePage = (value) => {
     })
 }
 
-const addInitialPages = () => {
-    // Just initial pages for now
-    ;['chungus.xyz', 'poop.china', 'amongus.com', 'sussy.bk'].map((value) => {
-        addPage(value)
-    })
+const addInitialPages = (day) => {
+    pages = []
+    while (pageList.children.length > 1) {
+        pageList.firstChild.remove()
+    }
 }
 
 pageAddBtn.addEventListener('click', () => {
@@ -59,4 +60,9 @@ pageAddBtn.addEventListener('click', () => {
     addPage(value)
 })
 
-addInitialPages()
+daySelect.addEventListener('change', () => {
+    let day = daySelect.value
+    addInitialPages(day)
+})
+
+addInitialPages(0) // First, get pages for Sunday which is the default

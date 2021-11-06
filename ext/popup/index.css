@@ -21,6 +21,10 @@ body {
     background-color: var(--light-color);
 }
 
+.inline-block {
+    display: inline-block;
+}
+
 .navbar {
     left: 0;
     right: 0;
@@ -50,7 +54,7 @@ body {
 }
 
 .main-content {
-    padding-top: 50px;
+    padding-top: 0;
     width: 90%;
 
     margin: auto;
