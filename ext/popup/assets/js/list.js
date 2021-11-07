@@ -1,4 +1,5 @@
 let pages = []
+let selectedDay = 0
 
 let pageList = document.getElementById('page-list')
 let pageAdd = document.getElementById('page-add')
@@ -30,7 +31,7 @@ const getPageElement = (value) => {
     deleteNode.addEventListener('click', () => {
         baseNode.remove()
         pages = pages.filter((page) => page !== value)
-        console.log(pages)
+        msgConnection.postMessage({type: 'delete_page', day: selectedDay, page: value})
     })
     deleteNode.className = 'page-delete'
 
@@ -44,25 +45,20 @@ const getPageElement = (value) => {
 }
 
 const addPage = (value, isInitial) => {
+    // Ayush is smart :)
     let pageElement = getPageElement(value)
     pageList.insertBefore(pageElement, pageAdd)
     pages.push(value)
 
     if (!isInitial) {
-        msgConnection.postMessage({page: value})
+        msgConnection.postMessage({type: 'add_page', day: selectedDay, page: value})
     }
-}
-
-const deletePage = (value) => {
-    pageList.children.map((page) => {
-        if (page.innerText == value) page.remove()
-    })
 }
 
 const addInitialPages = async (day) => {
     // Clear pages list in the code and the DOM element list.
     pages = []
-    let data = await get('timings')
+    let data = await getFromStorage('timings')
     while (pageList.children.length > 1) {
         pageList.firstChild.remove()
     }
@@ -86,17 +82,17 @@ pageAddText.addEventListener('keyup', (event) => {
 })
 
 daySelect.addEventListener('change', () => {
-    let day = daySelect.value
-    refreshTime(day)
-    addInitialPages(day)
+    selectedDay = daySelect.value
+    refreshTime(selectedDay)
+    addInitialPages(selectedDay)
 })
 
 startTime.addEventListener('change', () => {
-    console.log('Start time changed!')
+    msgConnection.postMessage({type: 'change_start', day: selectedDay, time: startTime.value})
 })
 
 endTime.addEventListener('change', () => {
-    console.log('End time changed!')
+    msgConnection.postMessage({type: 'change_end', day: selectedDay, time: startTime.value})
 })
 
 addInitialPages(0) // First, get pages for Sunday which is the default
