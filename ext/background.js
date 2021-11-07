@@ -37,7 +37,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
             (start <= minutesSinceMidnight &&
                 minutesSinceMidnight < end &&
                 blocked.nocturnal == false) ||
-            (!(start <= minutesSinceMidnight && minutesSinceMidnight < end) &&
+            (!(end <= minutesSinceMidnight && minutesSinceMidnight < start) &&
                 blocked.nocturnal == true)
         ) {
             for (let n = 0; n < blocked.blocklisted.length; n++) {
@@ -51,9 +51,6 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
                                 splitTabHostname[splitTabHostname.length - (o + 1)]
                             )
                         ) {
-                            console.log('aaaaa')
-                            console.log(splitBlockedName[splitBlockedName.length - (o + 1)])
-                            console.log(splitTabHostname[splitTabHostname.length - (o + 1)])
                             block = false
                         }
                     }
