@@ -1,6 +1,6 @@
 importScripts('popup/assets/js/getFromStorage.js')
 let lastTabId = null
-let extensionURL = chrome.runtime.getURL('popup/home.html')
+let extensionDomain = new URL(chrome.runtime.getURL('popup/blocked.html')).hostname
 
 //noctural denotes the fact of the start and end times being the start and end times of rest, not work. This combats problems due to working through midnight
 
@@ -22,7 +22,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     let fullurl = new URL(tab.url)
     let domain = fullurl.hostname
 
-    if (fullurl == extensionURL) {
+    if (domain == extensionDomain) {
         return
     }
 
@@ -39,7 +39,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
                     if (n == blocked.whitelisted.length - 1) {
                         console.log(tabId)
                         chrome.tabs.remove(tabId)
-                        chrome.tabs.create({url: chrome.runtime.getURL('popup/home.html')})
+                        chrome.tabs.create({url: chrome.runtime.getURL('popup/blocked.html')})
                         lastTabId = tabId
                     }
                 }
