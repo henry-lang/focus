@@ -22,7 +22,7 @@ const getTimes = async (day) => {
 }
 
 const validatePage = (value) => {
-    if (pages.includes(value)) return false
+    if (pages.includes(value) || pages.includes(formatPageUrl(value))) return false
     return true
 }
 
@@ -44,7 +44,21 @@ const getPageElement = (value) => {
     return baseNode
 }
 
+const formatPageUrl = (value) => {
+    if (!value.startsWith('https://') && !value.startsWith('http://')) value = `https://${value}`
+    let hostnameSplit
+    try {
+        hostnameSplit = new URL(value).hostname.split('.')
+    } catch (e) {
+        console.error(e)
+    }
+
+    if (hostnameSplit.length > 2 && hostnameSplit[0] == 'www') hostnameSplit.shift()
+    return hostnameSplit.join('.')
+}
+
 const addPage = (value, isInitial) => {
+    value = formatPageUrl(value)
     // Ayush is smart :)
     let pageElement = getPageElement(value)
     pageList.insertBefore(pageElement, pageAdd)
@@ -76,6 +90,8 @@ pageAddBtn.addEventListener('click', () => {
 
 pageAddText.addEventListener('keyup', (event) => {
     if (event.keyCode == 13) {
+        let value = pageAddText.value
+        if (!validatePage(value)) return
         addPage(pageAddText.value, false)
         pageAddText.value = ''
     }
