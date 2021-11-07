@@ -25,7 +25,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     let fullurl = new URL(tab.url)
     let domain = fullurl.hostname
     let splitTabHostname = domain.split('.')
-    let block = false;
+    let block = false
     if (splitTabHostname.length > 2) {
         if (splitTabHostname[0] == 'www') {
             splitTabHostname.shift()
@@ -34,29 +34,37 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     let splitBlockedName = splitTabHostname
     if (lastTabId != tabId) {
         if (
-            (((start <= minutesSinceMidnight) && (minutesSinceMidnight < end)) && (blocked.nocturnal == false)) ||
-            ((!((start <= minutesSinceMidnight) && (minutesSinceMidnight < end))) && (blocked.nocturnal == true))
+            (start <= minutesSinceMidnight &&
+                minutesSinceMidnight < end &&
+                blocked.nocturnal == false) ||
+            (!(start <= minutesSinceMidnight && minutesSinceMidnight < end) &&
+                blocked.nocturnal == true)
         ) {
-                for (let n = 0; n < blocked.blocklisted.length; n++) {
-                        splitBlockedName = blocked.blocklisted[n].split('.')
-                        if (splitBlockedName.length <= splitTabHostname.length) {
-                            block = true
-                            for (let o = 0; o<splitBlockedName.length; o++) {
-                                if (!(splitBlockedName[splitBlockedName.length - (o + 1)] === splitTabHostname[splitTabHostname.length - (o + 1)])) {
-                                    console.log("aaaaa")
-                                    console.log(splitBlockedName[splitBlockedName.length - (o + 1)])
-                                    console.log(splitTabHostname[splitTabHostname.length - (o + 1)])
-                                    block = false
-                                }
-                            }
+            for (let n = 0; n < blocked.blocklisted.length; n++) {
+                splitBlockedName = blocked.blocklisted[n].split('.')
+                if (splitBlockedName.length <= splitTabHostname.length) {
+                    block = true
+                    for (let o = 0; o < splitBlockedName.length; o++) {
+                        if (
+                            !(
+                                splitBlockedName[splitBlockedName.length - (o + 1)] ===
+                                splitTabHostname[splitTabHostname.length - (o + 1)]
+                            )
+                        ) {
+                            console.log('aaaaa')
+                            console.log(splitBlockedName[splitBlockedName.length - (o + 1)])
+                            console.log(splitTabHostname[splitTabHostname.length - (o + 1)])
+                            block = false
                         }
-                        if (block == true) {
-                            chrome.tabs.remove(tabId)
-                            chrome.tabs.create({url: chrome.runtime.getURL('popup/blocked.html')})
-                            lastTabId = tabId
-                            break
-                        }
+                    }
                 }
+                if (block == true) {
+                    chrome.tabs.remove(tabId)
+                    chrome.tabs.create({url: chrome.runtime.getURL('popup/blocked.html')})
+                    lastTabId = tabId
+                    break
+                }
+            }
         }
     }
 })
@@ -135,15 +143,13 @@ chrome.runtime.onInstalled.addListener(async (details) => {
             4: defaultConfig,
             5: defaultConfig,
             6: defaultConfig,
-        }, settings: {
-            darkMode: "off",
-            syncStorage: "on"
-        }
+        },
+        settings: {
+            darkMode: 'off',
+            syncStorage: 'on',
+        },
     }
 
     await chrome.storage.sync.set(initSettings)
-
     await chrome.storage.local.set(initSettings)
 })
-
-
