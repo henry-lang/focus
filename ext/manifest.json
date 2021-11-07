@@ -14,5 +14,9 @@
     ],
     "host_permissions": [
         "*://*/*"
-    ]
+    ],
+    "icons": { "16": "popup/assets/icon-white.png",
+        "48": "popup/assets/icon-white.png",
+       "128": "popup/assets/icon-white.png" 
+    }
 }
