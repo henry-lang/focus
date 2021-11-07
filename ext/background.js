@@ -31,12 +31,12 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
             (start <= minutesSinceMidnight < end && blocked.nocturnal == false) ||
             (!(start <= minutesSinceMidnight < end) && blocked.nocturnal == true)
         ) {
-            if (blocked.blacklisted.includes(domain)) {
-                for (let n = 0; n < blocked.whitelisted.length; n++) {
-                    if (tab.url.startsWith(blocked.whitelisted[n])) {
+            if (blocked.blocklisted.includes(domain)) {
+                for (let n = 0; n < blocked.allowlisted.length; n++) {
+                    if (tab.url.startsWith(blocked.allowlisted[n])) {
                         break
                     }
-                    if (n == blocked.whitelisted.length - 1) {
+                    if (n == blocked.allowlisted.length - 1) {
                         console.log(tabId)
                         chrome.tabs.remove(tabId)
                         chrome.tabs.create({url: chrome.runtime.getURL('popup/blocked.html')})
@@ -61,11 +61,11 @@ chrome.runtime.onConnect.addListener((connection) => {
         switch (msg.type) {
             case 'add_page': {
                 console.log('Add page was fired!')
-                data[msg.day].blacklisted.push(msg.page)
+                data[msg.day].blocklisted.push(msg.page)
                 break
             }
             case 'delete_page': {
-                data[msg.day].blacklisted = data[msg.day].blacklisted.filter(
+                data[msg.day].blocklisted = data[msg.day].blocklisted.filter(
                     (page) => page !== msg.page
                 ) // Delete the page if it exists, if it doesn't nothing will happen
                 break
@@ -84,27 +84,18 @@ chrome.runtime.onConnect.addListener((connection) => {
             }
         }
         chrome.storage.sync.set({timings: data})
-        // try {
-        //     console.log('working!')
-        //     let day = new Date().getDay()
-        //     data = await get('timings')
-        //     data[day].blacklisted.push(msg.page)
-        //     chrome.storage.sync.set({timings: data})
-        //     connection.postMessage({status: 'ok', data: data})
-        // } catch (err) {
-        //     connection.postMessage({status: err.toString()})
-        // }
     })
 })
 
 //fix this
 chrome.runtime.onInstalled.addListener((details) => {
+    // Ayush said foam.
     let defaultConfig = {
         nocturnal: false,
         start: '09:50',
         end: '20:30',
-        blacklisted: ['www.youtube.com', 'lldamahldhphfhnpcnfnlmcamjnlhjij'],
-        whitelisted: [
+        blocklisted: ['https://example.com'],
+        allowlisted: [
             'https://www.youtube.com/watch?v=LqA35eLEbug',
             'https://www.youtube.com/watch?v=jMtG9SyZfAc',
         ],

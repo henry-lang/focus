@@ -68,28 +68,38 @@ body {
 }
 
 #page-add-btn {
-    background-image: url("assets/check.svg");
+    background-image: url('assets/check.svg');
 }
 
 .page {
-  display: flex;
+    background-color: var(--mid-color);
+}
+
+.page {
+    padding: 10px;
+    margin: 5px;
+}
+
+.page > * {
+    display: inline-block;
 }
 
 .page button {
-  background-image: url("assets/delete.svg");
-  /* padding: 12px; */
+    background-image: url('assets/delete.svg');
+    background-repeat: no-repeat;
+    padding: 15px;
 }
 
 #focusText {
-  text-align: center;
-  padding-top: 100px;
+    text-align: center;
+    padding-top: 100px;
 }
 
 button {
-  outline: none;
-  border-width: 1px;
-  border-radius: 5px;
-  background-position: center;
-  padding: 10px;
-  margin-left: 5px;
+    outline: none;
+    border-width: 1px;
+    border-radius: 5px;
+    background-position: center;
+    padding: 10px;
+    margin-left: 5px;
 }

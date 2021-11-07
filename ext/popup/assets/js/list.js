@@ -11,7 +11,7 @@ let daySelect = document.getElementById('day-select')
 let startTime = document.getElementById('start-time')
 let endTime = document.getElementById('end-time')
 
-let msgConnection = chrome.runtime.connect({ name: 'list.js' })
+let msgConnection = chrome.runtime.connect({name: 'list.js'})
 
 const getTimes = async (day) => {
     let data = await getFromStorage('timings')
@@ -27,7 +27,7 @@ const validatePage = (value) => {
 }
 
 const getPageElement = (value) => {
-    let baseNode = document.createElement('li')
+    let baseNode = document.createElement('div')
     baseNode.className = 'page'
     baseNode.innerText = value
 
@@ -35,7 +35,7 @@ const getPageElement = (value) => {
     deleteNode.addEventListener('click', () => {
         baseNode.remove()
         pages = pages.filter((page) => page !== value)
-        msgConnection.postMessage({ type: 'delete_page', day: selectedDay, page: value })
+        msgConnection.postMessage({type: 'delete_page', day: selectedDay, page: value})
     })
     deleteNode.className = 'page-delete'
 
@@ -51,7 +51,7 @@ const addPage = (value, isInitial) => {
     pages.push(value)
 
     if (!isInitial) {
-        msgConnection.postMessage({ type: 'add_page', day: selectedDay, page: value })
+        msgConnection.postMessage({type: 'add_page', day: selectedDay, page: value})
     }
 }
 
@@ -62,7 +62,7 @@ const addInitialPages = async (day) => {
     while (pageList.children.length > 1) {
         pageList.firstChild.remove()
     }
-    data[day].blacklisted.map((page) => {
+    data[day].blocklisted.map((page) => {
         addPage(page, true)
     })
 }
@@ -88,11 +88,11 @@ daySelect.addEventListener('change', () => {
 })
 
 startTime.addEventListener('change', () => {
-    msgConnection.postMessage({ type: 'change_start', day: selectedDay, time: startTime.value })
+    msgConnection.postMessage({type: 'change_start', day: selectedDay, time: startTime.value})
 })
 
 endTime.addEventListener('change', () => {
-    msgConnection.postMessage({ type: 'change_end', day: selectedDay, time: endTime.value })
+    msgConnection.postMessage({type: 'change_end', day: selectedDay, time: endTime.value})
 })
 
 addInitialPages(0) // First, get pages for Sunday which is the default
