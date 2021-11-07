@@ -39,10 +39,6 @@ const getPageElement = (value) => {
     })
     deleteNode.className = 'page-delete'
 
-    let imageNode = document.createElement('img')
-    imageNode.src = 'assets/delete.svg'
-
-    deleteNode.appendChild(imageNode)
     baseNode.appendChild(deleteNode)
 
     return baseNode

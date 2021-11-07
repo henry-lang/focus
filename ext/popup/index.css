@@ -64,11 +64,32 @@ body {
 #page-add {
     margin: 0;
     padding: 0;
-    /* display: none; */
+    display: flex;
 }
 
+#page-add-btn {
+    background-image: url("assets/check.svg");
+}
+
+.page {
+  display: flex;
+}
+
+.page button {
+  background-image: url("assets/delete.svg");
+  /* padding: 12px; */
+}
 
 #focusText {
   text-align: center;
   padding-top: 100px;
+}
+
+button {
+  outline: none;
+  border-width: 1px;
+  border-radius: 5px;
+  background-position: center;
+  padding: 10px;
+  margin-left: 5px;
 }
