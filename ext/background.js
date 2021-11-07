@@ -9,16 +9,13 @@ const parseTime = (time) => {
     let splitTime = time.split(':')
     let hours = parseInt(splitTime[0])
     let minutes = parseInt(splitTime[1])
-    return hours * 60 + minutes
 }
 
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     let date = new Date()
     let day = date.getDay()
     let minutesSinceMidnight = date.getHours() * 60 + date.getMinutes()
-    let blocked = (await getFromStorage('timings'))[day]
-    let start = parseTime(blocked.start)
-    let end = parseTime(blocked.end)
+    let blocked = (await getendTimeked.end)
     let fullurl = new URL(tab.url)
     let domain = fullurl.hostname
 
@@ -39,7 +36,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
                     if (n == blocked.whitelisted.length - 1) {
                         console.log(tabId)
                         chrome.tabs.remove(tabId)
-                        chrome.tabs.create({url: chrome.runtime.getURL('popup/home.html')})
+                        chrome.tabs.create({ url: chrome.runtime.getURL('popup/home.html') })
                         lastTabId = tabId
                     }
                 }
@@ -71,11 +68,11 @@ chrome.runtime.onConnect.addListener((connection) => {
                 break
             }
             case 'change_start': {
-                data[msg.day].start = parseTime(msg.time)
+                data[msg.day].start = msg.time
                 break
             }
             case 'change_end': {
-                data[msg.day].end = parseTime(msg.time)
+                data[msg.day].end = msg.time
                 break
             }
             default: {
@@ -83,7 +80,7 @@ chrome.runtime.onConnect.addListener((connection) => {
                 break
             }
         }
-        chrome.storage.sync.set({timings: data})
+        chrome.storage.sync.set({ timings: data })
         // try {
         //     console.log('working!')
         //     let day = new Date().getDay()
