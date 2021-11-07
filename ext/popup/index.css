@@ -55,9 +55,9 @@ body {
 }
 
 .main-content {
-    padding-top: 0;
+    padding-top: 15px;
     width: 90%;
-
+    font-family: 'Montserrat';
     margin: auto;
 }
 
@@ -65,4 +65,10 @@ body {
     margin: 0;
     padding: 0;
     /* display: none; */
+}
+
+
+#focusText {
+  text-align: center;
+  padding-top: 100px;
 }
