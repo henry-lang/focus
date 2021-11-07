@@ -126,7 +126,7 @@ chrome.runtime.onInstalled.addListener(async (details) => {
             'https://www.youtube.com/watch?v=jMtG9SyZfAc',
         ],
     }
-    await chrome.storage.sync.set({
+    let initSettings = {
         timings: {
             0: defaultConfig,
             1: defaultConfig,
@@ -139,7 +139,11 @@ chrome.runtime.onInstalled.addListener(async (details) => {
             darkMode: "off",
             syncStorage: "on"
         }
-    })
+    }
+
+    await chrome.storage.sync.set(initSettings)
+
+    await chrome.storage.local.set(initSettings)
 })
 
 
