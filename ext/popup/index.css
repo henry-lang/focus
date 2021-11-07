@@ -13,11 +13,10 @@
     --dark-color: #444444;
 }
 
-[darkMode="on"] {
+[darkMode='on'] {
     --light-color: #333333;
     --mid-color: #f0f0f0;
     --dark-color: #fefefe;
-
 }
 
 body {
@@ -30,7 +29,9 @@ body {
 }
 
 h1,
-p, h3, h2 {
+p,
+h3,
+h2 {
     color: var(--dark-color);
 }
 
@@ -121,5 +122,5 @@ button {
 }
 
 #repo-link {
-    color: var(--dark-color)
+    color: var(--dark-color);
 }
