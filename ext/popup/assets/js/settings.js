@@ -6,23 +6,17 @@ getFromStorage('settings').then(data => {
     syncStorageSelect.value = data.syncStorage
 })
 
-darkModeSelect.addEventListener('change', () => {
-    let newSetting = darkModeSelect.value
-    chrome.storage.sync.set({
-        settings: {
-            darkMode: newSetting,
-            syncStorage: syncStorageSelect.value
-        }
-    })
-    switchTheme(newSetting)
+darkModeSelect.addEventListener('change', async () => {
+    let newSettings = {settings: {darkMode: darkModeSelect.value, syncStorage: syncStorageSelect.value}}
+    console.log("DarkModeSelect was changed!", darkModeSelect.value)
+    await chrome.storage.sync.set(newSettings)
+    await chrome.storage.local.set(newSettings)
+    switchTheme(darkModeSelect.value)
 })
 
-syncStorageSelect.addEventListener('change', () => {
-    let newSetting = syncStorageSelect.value
-    chrome.storage.sync.set({
-        settings: {
-            darkMode: darkModeSelect.value,
-            syncStorage: newSetting
-        }
-    })
+syncStorageSelect.addEventListener('change', async () => {
+    let newSettings = {settings: {darkMode: darkModeSelect.value, syncStorage: syncStorageSelect.value}}
+    console.log("SyncStorageSelect was changed!", syncStorageSelect.value)
+    await chrome.storage.sync.set(newSettings)
+    await chrome.storage.local.set(newSettings)
 })

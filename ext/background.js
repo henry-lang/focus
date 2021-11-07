@@ -71,6 +71,7 @@ chrome.runtime.onConnect.addListener((connection) => {
             Time? - Time to change
         */
         let data = await getFromStorage('timings')
+        console.log(data)
         switch (msg.type) {
             case 'add_page': {
                 console.log('Add page was fired!')
@@ -108,12 +109,12 @@ chrome.runtime.onConnect.addListener((connection) => {
                 break
             }
         }
-        chrome.storage.sync.set({timings: data})
+        await saveToStorage({timings: data})
     })
 })
 
 //fix this
-chrome.runtime.onInstalled.addListener((details) => {
+chrome.runtime.onInstalled.addListener(async (details) => {
     // Ayush said foam.
     let defaultConfig = {
         nocturnal: false,
@@ -125,7 +126,7 @@ chrome.runtime.onInstalled.addListener((details) => {
             'https://www.youtube.com/watch?v=jMtG9SyZfAc',
         ],
     }
-    chrome.storage.sync.set({
+    await chrome.storage.sync.set({
         timings: {
             0: defaultConfig,
             1: defaultConfig,
