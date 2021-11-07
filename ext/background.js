@@ -21,29 +21,42 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     let end = parseTime(blocked.end)
     let fullurl = new URL(tab.url)
     let domain = fullurl.hostname
-
-    if (domain == extensionDomain) {
-        return
+    let splitTabHostname = domain.split('.')
+    let block = false;
+    if (splitTabHostname.length > 2) {
+        if (splitTabHostname[0] == 'www') {
+            splitTabHostname.shift()
+        }
     }
-
+    let splitBlockedName = splitTabHostname
     if (lastTabId != tabId) {
         if (
             (((start <= minutesSinceMidnight) & (minutesSinceMidnight < end)) && (blocked.nocturnal == false)) ||
             ((!((start <= minutesSinceMidnight) & (minutesSinceMidnight < end))) && (blocked.nocturnal == true))
         ) {
-            if (blocked.blocklisted.includes(domain)) {
-                for (let n = 0; n < blocked.allowlisted.length; n++) {
-                    if (tab.url.startsWith(blocked.allowlisted[n])) {
-                        break
-                    }
-                    if (n == blocked.allowlisted.length - 1) {
-                        console.log(tabId)
-                        chrome.tabs.remove(tabId)
-                        chrome.tabs.create({url: chrome.runtime.getURL('popup/blocked.html')})
-                        lastTabId = tabId
-                    }
+                console.log(blocked.blocklisted)
+                console.log(blocked.blocklisted.length)
+                for (let n = 0; n < blocked.blocklisted.length; n++) {
+                        splitBlockedName = blocked.blocklisted[n].split('.')
+                        console.log(blocked.blocklisted)
+                        console.log(blocked.blocklisted.length)
+                        if (splitBlockedName.length <= splitTabHostname.length) {
+                            console.log("iubfewbfebwiuf")
+                            blocked = true
+                            for (let o = 0; o<splitBlockedName.length; o++) {
+                                if (!(splitBlockedName[o] === splitTabHostname[o])) {
+                                    blocked = false
+                                }
+                            }
+                        }
+                        if (blocked == true) {
+                           console.log(tabId)
+                            chrome.tabs.remove(tabId)
+                            chrome.tabs.create({url: chrome.runtime.getURL('popup/blocked.html')})
+                            lastTabId = tabId
+                            break
+                        }
                 }
-            }
         }
     }
 })
