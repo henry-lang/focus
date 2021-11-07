@@ -134,7 +134,10 @@ chrome.runtime.onInstalled.addListener((details) => {
             4: defaultConfig,
             5: defaultConfig,
             6: defaultConfig,
-        },
+        }, settings: {
+            darkMode: "off",
+            syncStorage: "on"
+        }
     })
 })
 

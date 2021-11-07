@@ -14,6 +14,7 @@ darkModeSelect.addEventListener('change', () => {
             syncStorage: syncStorageSelect.value
         }
     })
+    switchTheme(newSetting)
 })
 
 syncStorageSelect.addEventListener('change', () => {
