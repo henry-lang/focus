@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Focus</title>
     <link rel="stylesheet" href="index.css">
+    <script defer src="assets/js/getFromStorage.js"></script>
+    <script defer src="assets/js/settings.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -16,7 +18,28 @@
     </nav>
 
     <div class="main-content">
-        
+        <h1>Your settings</h1>
+        <ul>
+            <li>
+                <h3>Dark mode is
+                    <select class="inline-block" id="dark-mode">
+                        <option value="on">on</option>
+                        <option value="off">off</option>
+                    </select>
+                </h3>
+                <p>Dark mode toggles the main colors of the extension's pages to be easier on the eyes.</p>
+            </li>
+            <li>
+                <h3>Sync storage is
+                    <select class="inline-block" id="sync-storage">
+                        <option value="on">on</option>
+                        <option value="off">off</option>
+                    </select>
+                </h3>
+                <!-- <br> -->
+                <p>If sync storage is on, your blocklist will transfer between devices. If not, you'll have a different blocklist for each device.</p>
+            </li>
+        </ul>
     </div>
 </body>
 </html>

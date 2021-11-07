@@ -31,32 +31,26 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     let splitBlockedName = splitTabHostname
     if (lastTabId != tabId) {
         if (
-            (((start <= minutesSinceMidnight) & (minutesSinceMidnight < end)) && (blocked.nocturnal == false)) ||
-            ((!((start <= minutesSinceMidnight) & (minutesSinceMidnight < end))) && (blocked.nocturnal == true))
+            (((start <= minutesSinceMidnight) && (minutesSinceMidnight < end)) && (blocked.nocturnal == false)) ||
+            ((!((start <= minutesSinceMidnight) && (minutesSinceMidnight < end))) && (blocked.nocturnal == true))
         ) {
-                console.log(blocked.blocklisted)
-                console.log(blocked.blocklisted.length)
-                for (let n = 0; n < blocked.blocklisted.length; n++) {
-                        splitBlockedName = blocked.blocklisted[n].split('.')
-                        console.log(blocked.blocklisted)
-                        console.log(blocked.blocklisted.length)
-                        if (splitBlockedName.length <= splitTabHostname.length) {
-                            console.log("iubfewbfebwiuf")
-                            blocked = true
-                            for (let o = 0; o<splitBlockedName.length; o++) {
-                                if (!(splitBlockedName[o] === splitTabHostname[o])) {
-                                    blocked = false
-                                }
+            for (let n = 0; n < blocked.blocklisted.length; n++) {
+                    splitBlockedName = blocked.blocklisted[n].split('.')
+                    if (splitBlockedName.length <= splitTabHostname.length) {
+                        block = true
+                        for (let o = 0; o<splitBlockedName.length; o++) {
+                            if (!(splitBlockedName[o] === splitTabHostname[o])) {
+                                block = false
                             }
                         }
-                        if (blocked == true) {
-                           console.log(tabId)
-                            chrome.tabs.remove(tabId)
-                            chrome.tabs.create({url: chrome.runtime.getURL('popup/blocked.html')})
-                            lastTabId = tabId
-                            break
-                        }
-                }
+                    }
+                    if (block == true) {
+                        chrome.tabs.remove(tabId)
+                        chrome.tabs.create({url: chrome.runtime.getURL('popup/blocked.html')})
+                        lastTabId = tabId
+                        break
+                    }
+            }
         }
     }
 })
@@ -134,7 +128,10 @@ chrome.runtime.onInstalled.addListener((details) => {
             4: defaultConfig,
             5: defaultConfig,
             6: defaultConfig,
-        },
+        }, settings: {
+            darkMode: "off",
+            syncStorage: "on"
+        }
     })
 })
 
