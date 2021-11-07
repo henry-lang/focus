@@ -25,7 +25,7 @@ function updateText() {
             focus.innerHTML = `Blocklisted websites will remain blocked for ${Math.floor(timeDiff / 60)} hours and ${timeDiff % 60} minutes.`
         } else {
             focusHeader.innerHTML = "You're out of focus mode."
-            focus.innerHTML = "Blocklisted websites can be freely accessed for ${"
+            focus.innerHTML = "Blocklisted websites can be freely accessed."
         }
     })}
 
