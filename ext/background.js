@@ -28,8 +28,8 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
 
     if (lastTabId != tabId) {
         if (
-            (start <= minutesSinceMidnight < end && blocked.nocturnal == false) ||
-            (!(start <= minutesSinceMidnight < end) && blocked.nocturnal == true)
+            (((start <= minutesSinceMidnight) & (minutesSinceMidnight < end)) && (blocked.nocturnal == false)) ||
+            ((!((start <= minutesSinceMidnight) & (minutesSinceMidnight < end))) && (blocked.nocturnal == true))
         ) {
             if (blocked.blocklisted.includes(domain)) {
                 for (let n = 0; n < blocked.allowlisted.length; n++) {
@@ -72,10 +72,22 @@ chrome.runtime.onConnect.addListener((connection) => {
             }
             case 'change_start': {
                 data[msg.day].start = msg.time
+                if (data[msg.day].start <= data[msg.day].end) {
+                    data[msg.day].nocturnal = false
+                }
+                if (data[msg.day].start > data[msg.day].end) {
+                    data[msg.day].nocturnal = true
+                }
                 break
             }
             case 'change_end': {
                 data[msg.day].end = msg.time
+                if (data[msg.day].start <= data[msg.day].end) {
+                    data[msg.day].nocturnal = false
+                }
+                if (data[msg.day].start > data[msg.day].end) {
+                    data[msg.day].nocturnal = true
+                }
                 break
             }
             default: {
@@ -93,8 +105,8 @@ chrome.runtime.onInstalled.addListener((details) => {
     let defaultConfig = {
         nocturnal: false,
         start: '09:50',
-        end: '20:30',
-        blocklisted: ['https://example.com'],
+        end: '18:30',
+        blocklisted: ['example.com'],
         allowlisted: [
             'https://www.youtube.com/watch?v=LqA35eLEbug',
             'https://www.youtube.com/watch?v=jMtG9SyZfAc',
@@ -112,3 +124,4 @@ chrome.runtime.onInstalled.addListener((details) => {
         },
     })
 })
+
