@@ -52,8 +52,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
                     }
                 }
             }
-            if (block == true) {
-                console.log('11111111111111111111111111111111111111111111111111111111111111111111111')
+            if (block == true && !(blocked.allowlisted.includes(fullurl.href))) {
                 chrome.tabs.update({url: chrome.runtime.getURL('popup/blocked.html')})
                 lastTabId = tabId
                 break
